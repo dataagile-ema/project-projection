@@ -75,7 +75,8 @@ if no_of_stories > 0.0 and min_for_story > 0.0 and max_for_story > 0.0:
 
     ax.legend(loc='upper left')
 
-
+    # set height of plot
+    fig.set_size_inches(10, 5)
 
     st.pyplot(fig)
 
