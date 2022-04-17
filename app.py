@@ -1,14 +1,11 @@
-from faulthandler import disable
 import streamlit as st
 from PIL import Image
-from itertools import compress
-
+import altair as alt
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
+from chart_assembler import AssembleCharts
 
 df = pd.DataFrame()
-
 
 
 def str2num(s):
@@ -36,17 +33,11 @@ with right:
     share_rework = str2num(st.text_input("Procent av all tid som är rättningar", value="10"))
 
 
-#st.write(no_of_stories, min_for_story, max_for_story)
-
-
 def calc_uniform_simulation(no_of_stories, min_for_story, max_for_story):
     return np.sum(np.random.uniform(min_for_story, max_for_story, int(no_of_stories)))
 
 if no_of_stories > 0.0 and min_for_story > 0.0 and max_for_story > 0.0:
     np.random.seed(42)
-
-
-
     df["value"] = [calc_uniform_simulation(int(no_of_stories), min_for_story, max_for_story) for i in range(5000)]
 
     factor_rework = 1 + (share_rework/100)
@@ -55,55 +46,45 @@ if no_of_stories > 0.0 and min_for_story > 0.0 and max_for_story > 0.0:
     df["value"] = df["value"] * factor_rework
 
 
-    plt.style.use('ggplot')
-    plt.rcParams.update({'font.size': 14})
-
-    fig, ax = plt.subplots()
-
-    # remove scale on y-axis
-    #ax.yaxis.set_major_formatter(plt.NullFormatter())
-
-    # remove y-axis
-    ax.yaxis.set_visible(False)
-
-    # dist plot without label for 'value'
-    ax.hist(df["value"], bins=20, density=True, alpha=0.5)
-    #df.plot.kde(ax=ax, legend=False, label="")
-
-    ax.set_xlim(0, max_for_story*no_of_stories)
-
-
-    # calc 85th percentile
     p85th = df.value.quantile(0.85)
     p50th = df.value.quantile(0.5)
 
     # set label_str to p85th rounded to 0 decimals
     label_str_85 = "{:.0f}".format(p85th)
     label_str_50 = "{:.0f}".format(p50th)
-
-
-
-    ax.axvline(p85th, color='g', linestyle='--', label=f'85:e procentilen: {label_str_85}')
-
-    ax.axvline(p50th, color='b', linestyle='--', label=f'50:e percentile: {label_str_50}')
-
-
-
-    ax.legend(loc='upper left')
-
-    # set height of plot
-    fig.set_size_inches(10, 5)
-    # set font size
+    st.subheader("Sammanlagt tid för alla User Stories")
+    st.write(f'Under {label_str_85} med 85% sannolikhet')
+    st.write(f'Under {label_str_50} med 50% sannolikhet')
   
-    st.pyplot(fig)
+
+    histogram = alt.Chart(df).transform_density(
+        'value',
+        as_=['value', 'Sannolikhet'],
+        ).mark_area(color='lightgrey').encode(
+            x = alt.X('value:Q', title="Sammanlagd tid", scale=alt.Scale(domain=[0, max_for_story*no_of_stories*factor_rework])),
+            y='Sannolikhet:Q',
+        )
 
 
+    quantiler = (
+        alt.Chart(df)
+        .transform_quantile('value', probs=[0.50, 0.85], as_=['Procentil', 'value'])
+        .mark_rule(size=2, opacity=0.85)
+        .encode(
 
+            x = alt.X('value:Q'),
+     
+            color = alt.Color(
+                    "Procentil:N",
+                    legend=alt.Legend(orient='top'),
+                )
+        )
+    )
 
- 
-
-
-
-
-
+    c_expr = (histogram + quantiler)
+    ass = AssembleCharts(c_expr)
+    c_complete = ass.get_assembled_charts()
+    
+    st.altair_chart(c_complete, use_container_width=True)
+    
 
