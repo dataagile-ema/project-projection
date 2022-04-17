@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 from chart_assembler import AssembleCharts
 
-df = pd.DataFrame()
+
 np.random.seed(42)
 
 def str2num(s):
@@ -38,8 +38,9 @@ def calc_uniform_simulation(no_of_stories, min_for_story, max_for_story):
 
 factor_rework = 1 + (share_rework/100)
 
-@st.cache(allow_output_mutation=True)
+@st.cache()
 def simulate(no_of_stories, min_for_story, max_for_story, factor_rework):
+    df = pd.DataFrame()
     df["value"] = [calc_uniform_simulation(int(no_of_stories), min_for_story, max_for_story) for i in range(4000)]
     df["value"] = df["value"] * factor_rework
     return df
