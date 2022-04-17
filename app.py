@@ -25,13 +25,12 @@ st.set_page_config(page_title="Projektprognos", page_icon=im)
 
 left, right = st.columns(2)
 with left:
-    min_for_story = str2num(st.text_input("Min tid för en User Story", value="5"))
-    max_for_story = str2num(st.text_input("Max tid för en User Story", value="40"))
+    min_for_story = str2num(st.text_input("Min arbete för en User Story", value="5", help="Uppskattning för den lägsta mängden arbetstid som en user story angiven i valfri enhet"))
+    max_for_story = str2num(st.text_input("Max arbete för en User Story", value="40", help="Uppskattning för den högsta mängden arbetstid som en user story angiven i valfri enhet"))
    
 with right:
-    no_of_stories = str2num(st.text_input("Antal User Stories", value="10", key="text")) 
-    share_rework = str2num(st.text_input("Procent påslag för rättningar", value="10"))
-
+    no_of_stories = str2num(st.text_input("Antal User Stories", value="10", key="text", help="Det antal user stories som projektet består av"))
+    share_rework = str2num(st.text_input("Procent påslag för rättningar", value="10", help="Hur stor mycket påslag på projektiden ska göras för att täcka rättningar/omarbetningar?"))
 
 def calc_uniform_simulation(no_of_stories, min_for_story, max_for_story):
     return np.sum(np.random.uniform(min_for_story, max_for_story, int(no_of_stories)))
