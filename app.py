@@ -54,7 +54,7 @@ if no_of_stories > 0.0 and min_for_story > 0.0 and max_for_story > 0.0:
     # set label_str to p85th rounded to 0 decimals
     label_str_85 = "{:.0f}".format(p85th)
     label_str_50 = "{:.0f}".format(p50th)
-    st.subheader("Sammanlagt tid för alla User Stories")
+    st.subheader("Sammanlagd tid för alla User Stories")
     st.write(f'Under {label_str_85} med 85% sannolikhet')
     st.write(f'Under {label_str_50} med 50% sannolikhet')
   
