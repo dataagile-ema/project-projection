@@ -6,7 +6,7 @@ import numpy as np
 from chart_assembler import AssembleCharts
 
 df = pd.DataFrame()
-
+np.random.seed(42)
 
 def str2num(s):
     try:
@@ -36,15 +36,16 @@ with right:
 def calc_uniform_simulation(no_of_stories, min_for_story, max_for_story):
     return np.sum(np.random.uniform(min_for_story, max_for_story, int(no_of_stories)))
 
-if no_of_stories > 0.0 and min_for_story > 0.0 and max_for_story > 0.0:
-    np.random.seed(42)
-    df["value"] = [calc_uniform_simulation(int(no_of_stories), min_for_story, max_for_story) for i in range(5000)]
+factor_rework = 1 + (share_rework/100)
 
-    factor_rework = 1 + (share_rework/100)
-
-    # multiply by factor
+@st.cache(allow_output_mutation=True)
+def simulate(no_of_stories, min_for_story, max_for_story, factor_rework):
+    df["value"] = [calc_uniform_simulation(int(no_of_stories), min_for_story, max_for_story) for i in range(4000)]
     df["value"] = df["value"] * factor_rework
+    return df
 
+if no_of_stories > 0.0 and min_for_story > 0.0 and max_for_story > 0.0:
+    df = simulate(no_of_stories, min_for_story, max_for_story, factor_rework)
 
     p85th = df.value.quantile(0.85)
     p50th = df.value.quantile(0.5)
