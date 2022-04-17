@@ -30,7 +30,7 @@ with left:
    
 with right:
     no_of_stories = str2num(st.text_input("Antal User Stories", value="10", key="text")) 
-    share_rework = str2num(st.text_input("Procent av all tid som är rättningar", value="10"))
+    share_rework = str2num(st.text_input("Procent påslag för rättningar", value="10"))
 
 
 def calc_uniform_simulation(no_of_stories, min_for_story, max_for_story):
