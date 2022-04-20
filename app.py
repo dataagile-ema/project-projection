@@ -89,6 +89,7 @@ if no_of_stories > 0.0 and min_for_story > 0.0 and max_for_story > 0.0:
     c_complete = ass.get_assembled_charts()
     
     st.altair_chart(c_complete, use_container_width=True)
-    
-st.markdown('![Visitor count](https://shields-io-visitor-counter.herokuapp.com/badge?page=https://share.streamlit.io/your_deployed_app_link&label=VisitorsCount&labelColor=000000&logo=GitHub&logoColor=FFFFFF&color=1D70B8&style=for-the-badge)')
+with st.expander("Referenser"):
+    st.markdown("arbete med appen pågår fortfarande. Se https://github.com/dataagile-ema för kontaktuppgifter")
+    st.markdown('![Visitor count](https://shields-io-visitor-counter.herokuapp.com/badge?page=https://share.streamlit.io/dataagile-ema/project-projection/app.py&label=VisitorsCount&labelColor=000000&logo=GitHub&logoColor=FFFFFF&color=1D70B8&style=for-the-badge)')
 
