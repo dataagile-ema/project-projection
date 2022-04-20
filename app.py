@@ -6,6 +6,7 @@ import numpy as np
 from chart_assembler import AssembleCharts
 
 
+
 np.random.seed(42)
 
 def str2num(s):
@@ -22,6 +23,7 @@ st.set_page_config(page_title="Projektprognos", page_icon=im)
 """
 # Projektprognos
 """
+
 
 left, right = st.columns(2)
 with left:
@@ -88,4 +90,5 @@ if no_of_stories > 0.0 and min_for_story > 0.0 and max_for_story > 0.0:
     
     st.altair_chart(c_complete, use_container_width=True)
     
+st.markdown('![Visitor count](https://shields-io-visitor-counter.herokuapp.com/badge?page=https://share.streamlit.io/your_deployed_app_link&label=VisitorsCount&labelColor=000000&logo=GitHub&logoColor=FFFFFF&color=1D70B8&style=for-the-badge)')
 
