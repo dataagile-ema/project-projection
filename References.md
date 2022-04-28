@@ -1,20 +1,23 @@
 # Skapa miljö
 conda create --name pp_app python=3.9
 conda activate pp_app
-pip3 install streamlit==0.89.0
-conda install -c conda-forge matplotlib
-conda install -c anaconda scipy
-pip3 install jsonschema==3.2
-(när bugg i jsonshcema är fixad räcker det att installera senaste streamlit)
+pip3 install streamlit
+
+# Vidareutveckling
+- välja enhet (timmar, dagar, story points)
+- välja tid per vecka för att få kalendertid.
+- varaiant: gör om till att mata in antal user stories eller story point per vecka eller annan period istället.
+- ha engelsk text
+- Lägg till 3 punkts estimat och byt ut distribution från uniform till modified PERT med lamda 3. 
+** Det finns flera sätt att modellera tid för en aktivitet, bla PERT https://en.wikipedia.org/wiki/PERT_distribution - modified PERT med lambda = 3 används SUCCA och SEER 
+** Fördelning av cykeltid kan modelleras med weibull dist med olika shape (ref Troy Magennis). Est för en user story borde ha samma fördelning:
+** Cykeltid i veckor = Est för en user story / Tid per vecka
+** Antal user stories per vecka = Tid per vecka / Est för en user story
+- Lägg till en instruktion för att hur appen ska användas.
 
 
-   chart= alt.Chart(df).mark_bar().encode(
-        alt.X("value:Q", bin=True),
-        y='count()',
-    )
-    # plot line for 85:th percentile in chart
 
 
 
 
-    st.altair_chart(chart)
+
